@@ -231,7 +231,7 @@ Save the **landmark.html** file and open it in a Web browser. Put your subscript
 
 ---
 
-# Recognize celebrities
+# 3. Recognize celebrities
 
 The Celebrities feature of Computer Vision analyzes an image for famous people. Once the analysis is complete, Celebrities returns a JSON object that identifies the Celebrities found in the image.
 
@@ -335,7 +335,7 @@ Save the **celebrities.html** file and open it in a Web browser. Put your subscr
 
 ---
 
-# Intelligently generate a thumbnail
+# 4. Intelligently generate a thumbnail
 
 The Thumbnail feature of Computer Vision generates a thumbnail from an image. By using the **Smart Crop** feature, the Thumbnail feature will identify the area of interest in an image and center the thumbnail on this area, to generate more aesthetically pleasing thumbnail images.
 
@@ -459,7 +459,7 @@ Save the **thumbnail.html** file and open it in a Web browser. Put your subscrip
 
 ---
 
-# Read printed text (OCR)
+# 5. Read printed text (OCR)
 
 The Optical Character Recognition (OCR) feature of Computer Vision analyzes an image of printed text. After the analysis is complete, OCR returns a JSON object that contains the text and the location of the text in the image.
 
@@ -556,7 +556,7 @@ Save the **ocr.html** file and open it in a Web browser. Put your subscription k
 
 ---
 
-# Read handwritten text (Handwriting Recognition)
+# 6. Read handwritten text (Handwriting Recognition)
 
 The Handwriting Recognition feature of Computer Vision analyzes an image of handwritten text. After the analysis is complete, Handwriting Recognition returns a JSON object that contains the text and the location of the text in the image.
 
@@ -719,7 +719,7 @@ Save the **handwriting.html** file and open it in a Web browser. Put your subscr
 ---
 
 Contributors
-    *   https://github.com/KellyDF "KellyDF"
-    *   https://github.com/garyericson "Gary Ericson"
-    *   https://github.com/anrothMSFT "Anna S. Roth"
-    *   https://github.com/v-royhar "Roy Harper"
+* https://github.com/KellyDF "KellyDF"
+* https://github.com/garyericson "Gary Ericson"
+* https://github.com/anrothMSFT "Anna S. Roth"
+* https://github.com/v-royhar "Roy Harper"
