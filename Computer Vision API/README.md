@@ -8,7 +8,9 @@ Before creating the example, you must subscribe to Computer Vision API which is 
 
 The JavaScript application is set up with six .html files, one for each feature. Each file demonstrates a different function of Computer Vision (analyze, OCR, etc). The six tutorial sections do not have interdependencies, so you can add the tutorial code to the files in any order.
 
-Let's get started.
+##### API Information
+
+Detailed API information can be found here https://westcentralus.dev.cognitive.microsoft.com/docs/services/56f91f2d778daf23d8ec6739
 
 ---
 
