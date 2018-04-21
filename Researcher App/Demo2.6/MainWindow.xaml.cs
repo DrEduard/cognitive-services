@@ -37,9 +37,11 @@ namespace Demo2._1
                 SpeechRecognitionMode.ShortPhrase,
                 "en-US",
                 "COPY-KEY-HERE");
+            micClient.AuthenticationUri = "";
             this.micClient.OnMicrophoneStatus += MicClient_OnMicrophoneStatus;
             this.micClient.OnResponseReceived += MicClient_OnResponseReceived;
         }
+        
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
@@ -77,6 +79,7 @@ namespace Demo2._1
         {
             if (e.PhraseResponse.Results.Length > 0)
             {
+                micClient.EndMicAndRecognition();
                 await Application.Current.Dispatcher.BeginInvoke(
                     DispatcherPriority.Normal, new Action(() =>
                     {
@@ -117,7 +120,7 @@ namespace Demo2._1
             var queryString = HttpUtility.ParseQueryString(utterance);
 
             // Request parameters
-            var uri = "COPY-LUIS-ENDPOINT-URL-HERE" + queryString;
+            var uri = "COPY-URL-HERE" + queryString;
 
             var response = await client.GetAsync(uri);
             var json = await response.Content.ReadAsStringAsync();
@@ -171,7 +174,7 @@ namespace Demo2._1
             queryString["offset"] = "0";
             queryString["mkt"] = "en-us";
             queryString["safeSearch"] = "Moderate";
-            var uri = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?" + queryString;
+            var uri = "https://api.cognitive.microsoft.com/bing/v7.0/images/search?" + queryString;
 
             var response = await client.GetAsync(uri);
             var json = await response.Content.ReadAsStringAsync();
@@ -195,10 +198,12 @@ namespace Demo2._1
             var queryString = HttpUtility.ParseQueryString(string.Empty);
 
             // Request headers
+  
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "COPY-KEY-HERE");
-
+            queryString["returnFaceAttributes"] = "emotion";
             // Request parameters
-            var uri = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + queryString;
+            //var uri = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + queryString;
+            var uri = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?" + queryString;
             EmotionRequest request = new EmotionRequest();
             request.url = imageUri;
             byte[] byteData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(request));
@@ -210,37 +215,34 @@ namespace Demo2._1
                 var json = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    List<EmotionResponse> emotionResponse =
-                        JsonConvert.DeserializeObject<List<EmotionResponse>>(json);
-
-                    if (emotionResponse != null && emotionResponse.Count > 0)
+                    var faces = JsonConvert.DeserializeObject<List<Face>>(json);
+                    
+                    if (faces != null && faces.Count > 0)
                     {
-                        var scores = emotionResponse[0].scores;
+                        var scores = faces[0].FaceAttributes.Emotion;
                         Dictionary<string, double> dScores = new Dictionary<string, double>();
-                        dScores.Add("anger", scores.anger);
-                        dScores.Add("contempt", scores.contempt);
-                        dScores.Add("disgust", scores.disgust);
-                        dScores.Add("fear", scores.fear);
-                        dScores.Add("happiness", scores.happiness);
-                        dScores.Add("neutral", scores.neutral);
-                        dScores.Add("sadness", scores.sadness);
-                        dScores.Add("surprise", scores.surprise);
-                        var highestScore = dScores.Values.OrderByDescending(score => score).First();
-                        //probably a more elegant way to do this.
-                        var highestEmotion = dScores.Keys.First(key => dScores[key] == highestScore);
-
+                        dScores.Add("anger", scores.Anger);
+                        dScores.Add("contempt", scores.Contempt);
+                        dScores.Add("disgust", scores.Disgust);
+                        dScores.Add("fear", scores.Fear);
+                        dScores.Add("happiness", scores.Happiness);
+                        dScores.Add("neutral", scores.Neutral);
+                        dScores.Add("sadness", scores.Sadness);
+                        dScores.Add("surprise", scores.Surprise);
+                        var highestScore = dScores.OrderByDescending(score => score.Value).First();
+                      
                         await Application.Current.Dispatcher.BeginInvoke(
                             DispatcherPriority.Normal,
                             new Action(
                                 () =>
                                 {
-                                    this.MySpeechSentiment.Text = $"Emotion: {highestEmotion},";
+                                    this.MySpeechSentiment.Text = $"Emotion: {highestScore.Key},";
                                     this.MySpeechSentimentConfidence.Text =
-                                        $"confidence: {Convert.ToInt16(highestScore * 100)}%";
+                                        $"confidence: {Convert.ToInt16(highestScore.Value * 100)}%";
                                 }));
                         await
                             this.Speak(
-                                $"I'm  {Convert.ToInt16(highestScore * 100)}% sure that this person's emotion is {highestEmotion}");
+                                $"I'm  {Convert.ToInt16(highestScore.Value * 100)}% sure that this person's emotion is {highestScore.Key}");
                     }
                     else
                     {

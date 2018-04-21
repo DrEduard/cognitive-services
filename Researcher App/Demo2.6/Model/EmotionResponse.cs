@@ -1,33 +1,61 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-public class FaceRectangle
+public partial class Face
 {
-    public int height { get; set; }
-    public int left { get; set; }
-    public int top { get; set; }
-    public int width { get; set; }
+    [JsonProperty("faceId")]
+    public string FaceId { get; set; }
+
+    [JsonProperty("faceRectangle")]
+    public FaceRectangle FaceRectangle { get; set; }
+
+    [JsonProperty("faceAttributes")]
+    public FaceAttributes FaceAttributes { get; set; }
 }
 
-public class Scores
+public partial class FaceAttributes
 {
-    public double anger { get; set; }
-    public double contempt { get; set; }
-    public double disgust { get; set; }
-    public double fear { get; set; }
-    public double happiness { get; set; }
-    public double neutral { get; set; }
-    public double sadness { get; set; }
-    public double surprise { get; set; }
+    [JsonProperty("emotion")]
+    public Emotion Emotion { get; set; }
 }
 
-public class EmotionResponse
+public partial class Emotion
 {
-    public FaceRectangle faceRectangle { get; set; }
-    public Scores scores { get; set; }
+    [JsonProperty("anger")]
+    public long Anger { get; set; }
 
+    [JsonProperty("contempt")]
+    public double Contempt { get; set; }
+
+    [JsonProperty("disgust")]
+    public long Disgust { get; set; }
+
+    [JsonProperty("fear")]
+    public long Fear { get; set; }
+
+    [JsonProperty("happiness")]
+    public double Happiness { get; set; }
+
+    [JsonProperty("neutral")]
+    public double Neutral { get; set; }
+
+    [JsonProperty("sadness")]
+    public double Sadness { get; set; }
+
+    [JsonProperty("surprise")]
+    public long Surprise { get; set; }
 }
 
+public partial class FaceRectangle
+{
+    [JsonProperty("top")]
+    public long Top { get; set; }
 
+    [JsonProperty("left")]
+    public long Left { get; set; }
 
+    [JsonProperty("width")]
+    public long Width { get; set; }
 
+    [JsonProperty("height")]
+    public long Height { get; set; }
+}
